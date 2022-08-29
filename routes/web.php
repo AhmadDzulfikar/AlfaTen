@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Customer\cartsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +21,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+Route::get('/home', [App\Http\Controllers\homeController::class, 'index'])
     ->name('home');
 
 Route::controller(App\Http\Controllers\Customer\homeController::class)
@@ -29,7 +31,12 @@ Route::controller(App\Http\Controllers\Customer\homeController::class)
         Route::post('/addToChart', 'addToCart')->name("customer.addToCart");
     });
 
+    Route::prefix('customer')->group(function () {
+        Route::get('/carts', [cartsController::class, 'index'])->name('customer.carts');
+        Route::get('/carts/delete/{product}', [cartsController::class, 'destroy']);
+    });
+
 Route::get('cashier/home', function () {
 })->name('cashier.home');
 Route::get('manager/home', function () {
-})->name('manager.home');
+})->name('manager.home');   

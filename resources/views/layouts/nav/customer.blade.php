@@ -1,8 +1,8 @@
 <li class="nav-item">
-    <a class="nav-link {{ $page === 'home' ? 'active' : '' }}" aria-current="page" href="#">Home</a>
+    <a class="nav-link {{ $page === 'home' ? 'active' : '' }}" aria-current="page" href="{{ route('customer.home') }}">Home</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link {{ $page === 'carts' ? 'active' : '' }}" href="#">Carts <span class="badge text-bg-secondary">{{ $jumlah_cart }}</a>
+    <a class="nav-link {{ $page === 'carts' ? 'active' : '' }}" href="{{ route('customer.carts') }}">Carts <span class="badge text-bg-secondary">{{ $jumlah_cart }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link {{ $page === 'histories' ? 'active' : '' }}" href="#">Histories</a>
