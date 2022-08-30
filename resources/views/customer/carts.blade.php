@@ -6,6 +6,9 @@
 @endsection
 
 @section('content')
+
+
+
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -22,19 +25,73 @@
                                 <div class="col-md-4 text-center">
                                     <img src="{{ asset('/storage/products/' . $d->product->thumbnail) }}"
                                         class="img-fluid rounded-start " alt="..." height="100px" width="100px">
+                                        
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $d->product->name }}</h5>
                                         <p class="card-text">Rp.{{ $d->product->price }}</p>
                                         <p class="card-text">Qty : {{ $d->qty }}</p>
-                                        <a href="" class="btn btn-primary">detail</a>
-                                        <a href="" class="btn btn-warning">edit</a>
-                                        <a href="{{ url('/customer/carts/delete/' . $d->product_id) }}"
-                                            class="btn btn-danger">delete</a>
+                                        {{-- <a href="" class="btn btn-primary">detail</a> --}}
+                                        <button type="button" class="btn shadow btn-outline-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editQty-{{ $d->id }}">
+                                            Edit
+                                        </button>
+
+                                        <a href="{{ route('customer.carts.delete', $d->id) }}"
+                                            class="btn shadow btn-outline-danger btn-sm">delete</a>
+                                            <hr class="divider">
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- modal edit--}}
+                            <div class="modal fade" id="editQty-{{ $d->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{{ route('customer.editCart') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="text-center">
+                                                    <img src="{{ asset('/storage/products/' . $d->product->thumbnail) }}"
+                                                        alt="{{ $d->product->thumbnail }}" class="card-img" height="100%" width="100%">
+                                                </div>
+                                                <h4><strong>{{ $d->product->name }}</strong></h4>
+                                                <div class="mt-3 mb-3">
+                                                    Desc: {{ $d->product->desc }}
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 col-md-6">
+                                                        <div>
+                                                            <span>Rp.
+                                                                {{ $d->product->new_price !== $d->product->price ? $d->product->new_price : '' }}</span>
+                                                            <span>{!! $d->product->new_price !== $d->product->price ? "<s>Rp. {$d->product->price} </s>" : $d->product->price !!}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-md-6">
+                                                        <div class="d-flex justify-content-end mt-1">
+
+                                                            <h6 class="mt-1" style="font-size:18px;">Jumlah: </h6>
+                                                            <input min="1" type="number"
+                                                                class="form-control ms-3 w-50   h-25 text-center input-sm"
+                                                                name="quantity" value="{{ $d->quantity }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="product_id" value="{{ $d->product->id }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Edit To Chart</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- tutup modal --}}
+
                         @endforeach
                     @endif
                 </div>
@@ -68,8 +125,9 @@
                         {{-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> --}}
                         <form action="">
                             <div class="row">
-                                <button class="btn btn-success mt-3" type="submit"
-                                    {{ $carts->count() < 1 ? 'disabled' : '' }}>Checkout!</button>
+                                {{-- <button class="btn btn-success mt-3" type="submit"
+                                    {{ $carts->count() < 1 ? 'disabled' : '' }}>Checkout!</button> --}}
+                                    <a href="{{ route('customer.cart.checkout') }}" class="btn btn-primary"> Checkout</a>
                             </div>
                         </form>
                     </div>

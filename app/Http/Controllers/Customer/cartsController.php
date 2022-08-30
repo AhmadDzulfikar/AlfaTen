@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class cartsController extends Controller
 {
@@ -91,7 +92,20 @@ class cartsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    }
+
+    public function editQty(Request $request)
+    {
+
+        $check = Transaction::where("product_id", $request->product_id)->where("user_id", Auth::user()->id)->where("status", "unpaid")->with("product.discountS")->first();
+
+        if ($check !== null) {
+            Transaction::find($check->id)->update([
+                "quantity" => $request->quantity
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Berhasil Menambahkan produk kedalam Carts');
     }
 
     /**
@@ -100,25 +114,48 @@ class cartsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $transaction = Transaction::where('product_id', $product->id)
-            ->where('status', '=', 'unpaid')
+        Transaction::find($id)->delete();
+        return redirect()->back();
+    }
+
+    public function generateInvoice()
+    {
+        $invoice_code = "INV_" . Auth::user()->id . Str::random(5);
+
+        $check = Transaction::where("invoice_code", $invoice_code)->get();
+
+        if (count($check) > 0) { //Invoice sudah dipakai
+            $invoice_code = $this->generateInvoice();
+        }
+
+        return $invoice_code;
+    }
+
+    public function checkout()
+    {
+        $invoice_code = $this->generateInvoice();
+
+        Transaction::where("user_id", Auth::user()->id)->where("status", "unpaid")->update([
+            "status" => "waiting",
+            "invoice_code" => $invoice_code
+        ]);
+
+        return redirect()->route('customer.invoice', $invoice_code);
+    }
+
+    public function invoice($invoice_code)
+    {
+        $carts = Transaction::where('user_id', Auth::user()->id)
+            ->where("status", "unpaid")
+            ->with("product")
             ->get();
 
-        foreach ($transaction as $transaksi) {
-            if ($transaksi) {
-                $stock = Stock::where('product_id', $transaksi->product_id)->first();
-                $stock->update([
-                    'quantity' => $transaksi->quantity + $stock->quantity
-                ]);
-                $transaksi->delete();
-            } else {
-                $tes = Transaction::where('product_id', $transaksi->product_id)
-                    ->where('status', '!=', 'unpaid');
-                $tes->delete();
-            }
-        }
-        return redirect()->back();
+        $jumlah_cart = $carts->sum('quantity');
+
+        $transactions = Transaction::where("invoice_code", $invoice_code)->get();
+
+        return view('customer.invoice', compact("transactions", "jumlah_cart"));
     }
 }

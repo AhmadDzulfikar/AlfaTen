@@ -90,7 +90,7 @@ class FirstSeeder extends Seeder
         Product::create([
             "name" => "Indomie Goreng",
             "price" => 3500,
-            "thumbnail" => "indomie.jpg",
+            "thumbnail" => "indomie.png",
             "desc" => "Lejat bergiji",
             "category_id" => 2,
         ]);
