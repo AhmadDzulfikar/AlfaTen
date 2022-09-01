@@ -24,7 +24,7 @@ class FirstSeeder extends Seeder
     public function run()
     {
 
-//USER
+        //USER
         User::create([
             "name" => "Mujahid",
             "email" => "mujahid@gmail.com",
@@ -45,15 +45,15 @@ class FirstSeeder extends Seeder
             "username" => "sholahudin",
             "password" => Hash::make("sholahudin"),
         ]);
-//TUTUP USER
+        //TUTUP USER
 
-//ROLE
+        //ROLE
         Role::create(["name" => "Customer"]);
         Role::create(["name" => "Cashier"]);
         Role::create(["name" => "Manager"]);
-//TUTUP ROLE
+        //TUTUP ROLE
 
-//USER ROLE
+        //USER ROLE
         UserRole::create([
             "user_id" => 1,
             "role_id" => 3,
@@ -68,22 +68,22 @@ class FirstSeeder extends Seeder
             "user_id" => 3,
             "role_id" => 2,
         ]);
-//TUTUP USER ROLE
+        //TUTUP USER ROLE
 
-//CATEGORY
+        //CATEGORY
         Category::create(["name" => "Snacks"]);
         Category::create(["name" => "Foods & Goods"]);
         Category::create(["name" => "Drinks"]);
         Category::create(["name" => "Beauties"]);
         Category::create(["name" => "Medicine"]);
-//TUTUP CATEGORY
+        //TUTUP CATEGORY
 
-//PRODUCTS
+        //PRODUCTS
         Product::create([
             "name" => "Chitato",
             "price" => 11500,
             "thumbnail" => "chitato.jpg",
-            "desc" => "enak tau",
+            "desc" => "makanan ringan dari kentang asli, renyah dan penuh rasa, diproses secara higienis dan modern tanpa bahan pengawet dan MSG.",
             "category_id" => 1,
         ]);
 
@@ -91,15 +91,15 @@ class FirstSeeder extends Seeder
             "name" => "Indomie Goreng",
             "price" => 3500,
             "thumbnail" => "indomie.png",
-            "desc" => "Lejat bergiji",
+            "desc" => "Indomie Mi Goreng yaitu mi instan tanpa kuah yang sejenis dengan mi goreng tradisional yang bisa ditemui di restoran-restoran atau penjaja makanan di pinggiran jalan di Indonesia.",
             "category_id" => 2,
         ]);
 
         Product::create([
             "name" => "Pocari Sweat",
             "price" => 7000,
-            "thumbnail" => "pocari.jpg",
-            "desc" => "Segar",
+            "thumbnail" => "pocari.png",
+            "desc" => "salah satu minuman isotonic yang mengandung berbagai ion penting untuk menggantikan cairan yang hilang dalam tubuh. ",
             "category_id" => 3,
         ]);
 
@@ -107,20 +107,20 @@ class FirstSeeder extends Seeder
             "name" => "Scarlett Whitening",
             "price" => 52000,
             "thumbnail" => "scarlett.jpg",
-            "desc" => "Putih Berkilau",
+            "desc" => "berfungsi untuk mencerahkan dan melembabkan kulit, dengan kandungan Vit E dan Glutathione yg sudah terbukti dapat mencerahkan dan aman digunakan.",
             "category_id" => 4,
         ]);
 
         Product::create([
             "name" => "Bodrex",
             "price" => 5000,
-            "thumbnail" => "bodrex.jpg",
-            "desc" => "Obat Sakit Kepala",
+            "thumbnail" => "bodrex.png",
+            "desc" => "obat yang bermanfaat untuk meringankan sakit kepala, sakit gigi, dan demam.",
             "category_id" => 5,
         ]);
-// TUTUP PRODUCTS
+        // TUTUP PRODUCTS
 
-//STOCKS
+        //STOCKS
         Stock::create([
             "product_id" => 1,
             "quantity" => 50,
@@ -150,9 +150,9 @@ class FirstSeeder extends Seeder
             "quantity" => 50,
             "expire_date" => "2023-05-01"
         ]);
-//TUTUP STOCKS
+        //TUTUP STOCKS
 
-//TRANSACTIONS
+        //TRANSACTIONS
         Transaction::create([
             "product_id" => 1,
             "user_id" => 2,
@@ -192,9 +192,9 @@ class FirstSeeder extends Seeder
             "status" => "unpaid",
             "invoice_code" => "INV_32301"
         ]);
-//TUTUP TRANSACTIONS
+        //TUTUP TRANSACTIONS
 
-//DISCOUNTS
+        //DISCOUNTS
         Discount::create([
             "product_id" => 4,
             "percentage" => 10,
@@ -208,7 +208,7 @@ class FirstSeeder extends Seeder
             "start_date" => "2022-08-01",
             "end_date" => "2022-08-15",
         ]);
-//TUTUP DISCOUNTS
+        //TUTUP DISCOUNTS
 
     }
 }

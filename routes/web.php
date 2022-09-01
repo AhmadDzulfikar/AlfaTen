@@ -34,7 +34,7 @@ Route::controller(App\Http\Controllers\Customer\homeController::class)
 Route::prefix('customer')->group(function () {
     Route::get('/carts', [cartsController::class, 'index'])->name('customer.carts');
     Route::post('/cart/edit/', [cartsController::class, 'editQty'])->name('customer.editCart');
-    Route::get('/carts/delete/{id}', [cartsController::class, 'destroy'])->name('customer.carts.delete');
+    Route::delete('/carts/delete/{id}', [cartsController::class, 'destroy'])->name('customer.carts.delete');
     Route::get('/carts/checkout', [cartsController::class, 'checkout'] )->name('customer.cart.checkout');
     Route::get('/invoice/{invoice_code}',[cartsController::class, 'invoice']) ->name('customer.invoice');
 });
